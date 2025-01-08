@@ -1,6 +1,4 @@
-# phage-genome-analysis-pipeline
-# Assemblage *de novo* de génomes bactériens à partir de données nanopore
-
+# Pipeline for phage genome analysis 
 <div style="display" flex; justify-content: space-between; align="center">
   <p>
     <strong>This repository contains a pipeline used for phage DNA analysis.</strong>
