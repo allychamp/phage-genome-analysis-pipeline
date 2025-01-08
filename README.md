@@ -18,7 +18,6 @@
 
 </div>
 
-## Nanopore genome assembly pipeline
 
 ## Installation 
 You have to clone this repository and work in the directory where the `Snakefile` is (it should be the repo's directory). It contains the following tree: 
