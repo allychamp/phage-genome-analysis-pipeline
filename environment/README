@@ -1,0 +1,25 @@
+## Cluster environment creation
+# create env
+module purge && module load StdEnv/2020 python/3.10.2 gcc/9.3.0 java/17.0.2 blast+/2.10.1 diamond/0.9.36 mcl/14.137
+mkdir /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv
+virtualenv --no-download /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/pharokka_venv
+source /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/pharokka_venv/bin/activate
+
+pip install pharokka
+install_databases.py -d
+
+deactivate
+
+virtualenv --no-download /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv
+source /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv/bin/activate
+
+pip install h5py tables pypandoc biopython networkx numpy pandas scipy scikit-learn psutil setuptools-markdown pyparsing
+#pip install clusterone
+cd /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv/bin
+wget https://paccanarolab.org/static_content/clusterone/cluster_one-1.0.jar
+
+cd /home/jflucier/projects/def-labolcf/programs/
+git clone https://bitbucket.org/MAVERICLab/vcontact2.git
+cd vcontact2 && pip install .
+deactivate
+
