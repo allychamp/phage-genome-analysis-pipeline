@@ -1,0 +1,49 @@
+## Cluster environment creation: no need to run on narval
+# pharokka
+module purge && module load StdEnv/2020 python/3.10.2 gcc/9.3.0 java/17.0.2 blast+/2.10.1 diamond/0.9.36 mcl/14.137
+mkdir /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv
+virtualenv --no-download /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/pharokka_venv
+source /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/pharokka_venv/bin/activate
+pip install pharokka
+install_databases.py -d
+deactivate
+
+# phold
+module purge && module load StdEnv/2023 arrow/19.0.1 python/3.11.5
+virtualenv --no-download /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/phold_venv
+source /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/phold_venv/bin/activate
+pip install phold
+phold install
+deactivate
+
+# vcontact2
+virtualenv --no-download /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv
+source /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv/bin/activate
+pip install h5py tables pypandoc biopython networkx numpy pandas scipy scikit-learn psutil setuptools-markdown pyparsing
+#pip install clusterone
+cd /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/venv/vcontact2_venv/bin
+wget https://paccanarolab.org/static_content/clusterone/cluster_one-1.0.jar
+cd /home/jflucier/projects/def-labolcf/programs/
+git clone https://bitbucket.org/MAVERICLab/vcontact2.git
+cd vcontact2 && pip install .
+deactivate
+
+
+## Analysis job submittion
+# copy the run_pipeline.sh file to edit
+cp /home/jflucier/projects/def-labolcf/programs/phage-genome-analysis-pipeline/environment/run_pipeline.sh /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>
+
+# edit lines 14 and 15 with right path of
+vi /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>/run_pipeline.sh
+
+# let say data folder is in /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>/data
+total_job_nbr=$(ls -d /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>/data/* | wc -l)
+echo "Total jobs to submit = ${total_job_nbr}"
+
+# for test purpose first start a single job to make sure it all goes well
+sbatch --array=1 /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>/run_pipeline.sh
+
+# if all goes well, then run following
+#sbatch --array=2-${total_job_nbr}%25 /lustre06/project/def-labolcf/labolcf/<</path/to/analysis/folder>>/run_pipeline.sh
+
+
