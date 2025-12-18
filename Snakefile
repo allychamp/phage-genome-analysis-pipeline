@@ -4,13 +4,14 @@ import os
 # Enter here the file path to your data. 
 # `data_folder_path` should be assigned to the path containing the data that is to be analysed. see README for more info on the appropriate organisation¸
 # of your data
-data_folder_path = "/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Denault_N/All_data/Data"
+data_folder_path = "/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Data"
 # `analysis_folder_path` should contain a list of one path (in string) to the desired output directory 
-analysis_folder_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Denault_N/Result"] # This absolutely needs to be a list
+analysis_folder_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Analysis-12-25"] # This absolutely needs to be a list
 DB = "/home/champa/BIOINFO_Linux/DataBase"
 
 # # Defining the path for all the conda envs. It doesn't need to be changed if the working directory is in the repository file.
 vir_genome = "Requirements/vir_genome.yml"
+pharokka = "Requirements/pharokka.yml"
 # genome_analysis = "Requirements/bact_genome_analysis.yml"
 # genomad = "Requirements/genomad.yml" # This tool needs to be in its own envs to prevent dependency errors when executing the tool
 
@@ -59,38 +60,39 @@ rule all:
         expand("{path}/{sample}/Phold",
             path = analysis_folder_path,
             sample = samples,),
-        # expand("{path}/{sample}/blast/{sample}_blast.out",
-        #     path = analysis_folder_path,
-        #     sample = samples,),
+        expand("{path}/{sample}/blast/{sample}_blast.out",
+            path = analysis_folder_path,
+            sample = samples,),
         expand("{path}/multifasta/{sample}_consensus.fasta",
             path = analysis_folder_path,
             sample = samples,)
+
+# The input of this rule is a lambda function used to dynamically create file paths based on the values of wildcards. Here, each wildcard (sample)
+# will be passed to the function, creating the path associated with it. In other words, the pipeline will input each consensus.fasta file regarding each sample.
 
 rule DB_download:
     # There is no input for this rule since databases is simply downloaded in bash command line. It should only be done once since there are no wildcards associated with this rule.
     # The output pharokka is defined to contain pharokka's database
     output:
-        pharokka = directory(f"{DB}/Pharokka_DB"),
+        pharokka = directory(f"{DB}/Pharokka_1.8/"),
         phold = directory(f"{DB}/Phold_DB")
     # Since the command to download the database is specific , I also use geNomad environment here. Of course, this environment is available 
     # in the Requirements folder of the repository.
     conda: 
-       vir_genome
+       pharokka
     # A message is printed in the terminal so the user can follow what the pipeline is currently doing
     message:
        "Downloading databases"
     shell:
         # In the shell I download Pharokka and Phold DB using the appropriate command
         """
-        install_databases.py -o {output.pharokka} &&
+        install_databases.py -o {output.pharokka} 
+        &&
         phold install -d {output.phold}
-        """
-
+        """ 
 # The first tool used is Pharokka. This tools allows to annotate phages genome using the fasta file
 # The first tool used is Pharokka. This tools allows to annotate phages genome using the fasta file
 rule pharokka:
-# The input of this rule is a lambda function used to dynamically create file paths based on the values of wildcards. Here, each wildcard (sample)
-# will be passed to the function, creating the path associated with it. In other words, the pipeline will input each consensus.fasta file regarding each sample.
     input: 
         lambda wildcards: f"{data_folder_path}/{wildcards.sample}/Consensus.fasta"
     # The output of this tool is a directory (defined by the all output). Later in the pipeline we will need the gbk file. This file is defiened as the "phold"
@@ -114,8 +116,9 @@ rule pharokka:
         DB_folder = DB
     # Still using the same conda environnememt
     conda: 
-        vir_genome
-    shell: "pharokka.py -i {input} -d {params.DB_folder}/Pharokka_DB --dnaapler -e {params.evalue} -p {wildcards.sample} -l Pharokka_{wildcards.sample} -o {output.all} -f > {log} 2>&1" 
+        pharokka
+    shell: "pharokka.py -i {input} -d {params.DB_folder}/Pharokka_1.8 --dnaapler -e {params.evalue} -p {wildcards.sample} -l Pharokka_{wildcards.sample} -o {output.all} -f > {log} 2>&1" 
+        
 
 rule Phold:
     input:  "{path}/{sample}/Pharokka/{sample}.gbk"
@@ -203,10 +206,10 @@ def get_fasta_input(wildcards):
     # print(">>> Fonction get_fasta_input() appelée avec les wildcards :", wildcards)
     
     # Construire le chemin du fichier FASTA en fonction du wildcard `sample`
-    # fasta_path = f"{wildcards.path}/{wildcards.sample}/Pharokka/{wildcards.sample}_dnaapler_reoriented.fasta"
-    fasta_path = f"{data_folder_path}/{wildcards.sample}/Pharokka/{wildcards.sample}_dnaapler_reoriented.fasta"
+    fasta_path = f"{wildcards.path}/{wildcards.sample}/Pharokka/{wildcards.sample}_dnaapler_reoriented.fasta"
+    # fasta_path = f"{path}/{sample}/Pharokka/{sample}_dnaapler_reoriented.fasta"
     # fasta_path = f"{data_folder_path}/{wildcards.sample}/Consensus.fasta"
-    # print(f"Chemin du fichier FASTA généré : {fasta_path}")
+    # print(f"Chemin du fichier FASTA généré : {fasta_path}").
 
     return fasta_path  # Retourner une seule chaîne de caractères (pas une liste)
 

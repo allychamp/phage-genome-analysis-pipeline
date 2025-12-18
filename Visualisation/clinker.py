@@ -3,7 +3,7 @@ import os
 import glob
 # Please note the this script ONLY work if the phage-genome-analysis-pipeline snakefile was used before
 # Please enter to path to the result, This path should be the same as the analysis_folder_path in phage-genome-analysis-pipeline snakefile 
-phold_result_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Denault_N/Result","/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Denault_N/Ref/Ref_analysis"]
+phold_result_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Analysis-12-25"]
 # Create a list to stock all the dataframe
 dataframes = []
 
