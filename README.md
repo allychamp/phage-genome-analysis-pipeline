@@ -49,52 +49,40 @@ The rest of the dependencies should be installed in the appropriate conda enviro
 
 ## Repository content
 ### `./Snakefile`
-This is the code for the pipeline itself. It contains all the rules to execute the pipeline. Please note that you have to open and assign the variables `data_folder_path` and `analysis_folder_path` to the appropriate paths for the path to your data and the path for the output directory, respectively.
+This is the code for the pipeline itself. It contains all the rules to execute the pipeline. Please note that you have to open and assign the variables `data_folder_path` and `analysis_folder_path` to the appropriate paths to your data and the output directory, respectively.
 
 ### `./Requirements/`
-This file contains all the requirements for each conda environnement. The snakemake pipeline creates the environnements itself. Only the `./Requirements/` folder is needed in your working directory.
+This file contains all the requirements for each conda environment. The snakemake pipeline creates the environments itself. Only the `./Requirements/` folder is needed in your working directory.
 
 ## Usage
-First define the variable `data_folder_path` at the beginning of the snakefile for the workflow to recognize the data. 
+First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. 
 
-Then, the path for the desired ouput directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
+Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
 ```bash
 snakemake --use-conda -j 1  --cores 32 --resources mem_mb=15000
 ```
-Please adapt the --cores and --ressources option for your computer. In linux exploitation system, you can always run :
+Please adapt the --cores and --resources options for your computer. In a Linux exploitation system, you can always run :
 ``` 
 free -h
 nproc
 ```
-To know excatly how many core and memory are available on your computer. Please use appropriate command for other exploitation systems.
+To know exactly how many cores and memory are available on your computer. Please use appropriate commands for other exploitation systems. Also note that this script is optimised to work with a GPU, it might need adjustments if not provided.
 
 ## Output
-The pipeline will ouput a lot of files. Each sample will have a file looking like this (note that only the main files are reprensented here, please see documentation of each tool for more information on the output file):
+The pipeline will ouput a lot of files. Each sample will have a file looking like this (note that only the main files are represented here; please see documentation of each tool for more information on the output file):
 ```bash
 ├── Empathi
-│   ├── phanotate.csv
 │   ├── sample
 │   │   └── predictions_sample.csv
-│   └── sample_updated.gbk
 ├── Pharokka
 │   ├── dnaapler
 │   │   ├── dnaapler_reoriented.fasta
 │   │   ├── logs
 │   ├── logs
-│   ├── phanotate.faa
 │   ├── sample.gbk
-│   ├── sample.gff
-│   ├── sample_cds_final_merged_output.tsv
-│   ├── sample_cds_functions.tsv
-│   ├── sample_dnaapler_reoriented.fasta
-│   ├── sample_length_gc_cds_density.tsv
 ├── Phold
 │   ├── logs
 │   ├── phold.gbk
-│   ├── phold_3di.fasta
-│   ├── phold_aa.fasta
-│   ├── phold_all_cds_functions.tsv
-│   ├── phold_per_cds_predictions.tsv
 └── log
     ├── Empathi
     │   └── sample.log
@@ -105,4 +93,18 @@ The pipeline will ouput a lot of files. Each sample will have a file looking lik
 ```
 
 
-## Tools Used
+## References
+If you use this repo in your own work, please don't forget to cite it accordingly: 
+
+Please also cite all the tools used in that work: 
+# Pharokka:
+Bouras, G., Nepal R., Houtak, G., et al. Pharokka: a fast scalable bacteriophage annotation tool, Bioinformatics, Volume 39, Issue 1, January 2023, btac776, https://doi.org/10.1093/bioinformatics/btac776
+
+# Phold :
+Bouras, G., Nepal R., Houtak, G., et al., Pharokka: a fast scalable bacteriophage annotation tool, Bioinformatics, Volume 39, Issue 1, January 2023, btac776, https://doi.org/10.1093/bioinformatics/btac776
+
+# Empathi : 
+Boulay, A., Leprince, A., Enault, F. et al. Empathi: embedding-based phage protein annotation tool by hierarchical assignment. Nat Commun 16, 9114 (2025). https://doi.org/10.1038/s41467-025-64177-5
+
+# vContact2 : (2019).
+Bin Jang, H., Bolduc, B., Zablocki, O., et al., Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by gene-sharing networks. Nat. Biotechnol. 37, 632–639 (2019). https://doi.org/10.1038/s41587-019-0100-8
