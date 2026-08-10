@@ -20,7 +20,7 @@
 
 
 ## Installation 
-You have to clone this repository and work in the directory where the `Snakefile` is (it should be the repo's directory). It contains the following tree: 
+Clone this repository and work in the directory where the `Snakefile` is (it should be the repo's directory). It contains the following tree: 
 ```bash
 ├── LICENSE
 ├── README.md
@@ -57,30 +57,51 @@ This file contains all the requirements for each conda environnement. The snakem
 ## Usage
 First define the variable `data_folder_path` at the beginning of the snakefile for the workflow to recognize the data. 
 
-
-
-
-
-
-
-
 Then, the path for the desired ouput directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
 ```bash
 snakemake --use-conda -j 1  --cores 32 --resources mem_mb=15000
 ```
-
-The --cores and --ressources parameters are set using my computers ressources. Please adapt the command for your computer. In linux exploitation system, you can always run :
+Please adapt the --cores and --ressources option for your computer. In linux exploitation system, you can always run :
 ``` 
 free -h
 nproc
 ```
 To know excatly how many core and memory are available on your computer. Please use appropriate command for other exploitation systems.
+
 ## Output
-The pipeline will ouput a lot of files. Each sample will have a file looking like this (note that only the important files are represented here, there is a few more that are not shown):
+The pipeline will ouput a lot of files. Each sample will have a file looking like this (note that only the main files are reprensented here, please see documentation of each tool for more information on the output file):
 ```bash
-
-
-
+├── Empathi
+│   ├── phanotate.csv
+│   ├── sample
+│   │   └── predictions_sample.csv
+│   └── sample_updated.gbk
+├── Pharokka
+│   ├── dnaapler
+│   │   ├── dnaapler_reoriented.fasta
+│   │   ├── logs
+│   ├── logs
+│   ├── phanotate.faa
+│   ├── sample.gbk
+│   ├── sample.gff
+│   ├── sample_cds_final_merged_output.tsv
+│   ├── sample_cds_functions.tsv
+│   ├── sample_dnaapler_reoriented.fasta
+│   ├── sample_length_gc_cds_density.tsv
+├── Phold
+│   ├── logs
+│   ├── phold.gbk
+│   ├── phold_3di.fasta
+│   ├── phold_aa.fasta
+│   ├── phold_all_cds_functions.tsv
+│   ├── phold_per_cds_predictions.tsv
+└── log
+    ├── Empathi
+    │   └── sample.log
+    ├── Pharokka
+    │   └── Phold_sample.log
+    └── Phold
+        └── Phold_sample.log
 ```
 
 
