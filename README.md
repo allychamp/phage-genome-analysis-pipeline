@@ -97,14 +97,14 @@ The pipeline will ouput a lot of files. Each sample will have a file looking lik
 If you use this repo in your own work, please don't forget to cite it accordingly: 
 
 Please also cite all the tools used in that work: 
-# Pharokka:
+### Pharokka:
 Bouras, G., Nepal R., Houtak, G., et al. Pharokka: a fast scalable bacteriophage annotation tool, Bioinformatics, Volume 39, Issue 1, January 2023, btac776, https://doi.org/10.1093/bioinformatics/btac776
 
-# Phold :
+### Phold :
 Bouras, G., Nepal R., Houtak, G., et al., Pharokka: a fast scalable bacteriophage annotation tool, Bioinformatics, Volume 39, Issue 1, January 2023, btac776, https://doi.org/10.1093/bioinformatics/btac776
 
-# Empathi : 
+### Empathi : 
 Boulay, A., Leprince, A., Enault, F. et al. Empathi: embedding-based phage protein annotation tool by hierarchical assignment. Nat Commun 16, 9114 (2025). https://doi.org/10.1038/s41467-025-64177-5
 
-# vContact2 : (2019).
+### vContact2 : (2019).
 Bin Jang, H., Bolduc, B., Zablocki, O., et al., Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by gene-sharing networks. Nat. Biotechnol. 37, 632–639 (2019). https://doi.org/10.1038/s41587-019-0100-8
