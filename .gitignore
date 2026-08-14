@@ -162,6 +162,10 @@ cython_debug/
 #.idea/
 
 *:Zone.Identifier
-*.snakemake/*
+.snakemake/
 log
 DB/
+cluster_launcher_bash/
+a_jeter/
+Visualisation/clinker_from_empathi.py
+Visualisation/clinker_from_empathi_updated_gbk.py

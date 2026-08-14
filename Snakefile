@@ -1,17 +1,18 @@
 # Importing the needed module
 import os
 
-# Enter here the file path to your data. 
+# Enter here the file path to your data. cd 
 # `data_folder_path` should be assigned to the path containing the data that is to be analysed. see README for more info on the appropriate organisation¸
 # of your data
-data_folder_path = "/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Data"
+data_folder_path = "/home/champa/DATA/PHAGE_genome_analysis/SUS-Paul_Champoux-A_Chenard_A/Raw_data/samples"
 # `analysis_folder_path` should contain a list of one path (in string) to the desired output directory 
-analysis_folder_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Analysis-12-25"] # This absolutely needs to be a list
+analysis_folder_path = ["/home/champa/DATA/PHAGE_genome_analysis/SUS-Paul_Champoux-A_Chenard_A/Analysis_05052026"] # This absolutely needs to be a list
 DB = "/home/champa/BIOINFO_Linux/DataBase"
 
 # # Defining the path for all the conda envs. It doesn't need to be changed if the working directory is in the repository file.
 vir_genome = "Requirements/vir_genome.yml"
 pharokka = "Requirements/pharokka.yml"
+empathi = "Requirements/empathi_env.yml"
 # genome_analysis = "Requirements/bact_genome_analysis.yml"
 # genomad = "Requirements/genomad.yml" # This tool needs to be in its own envs to prevent dependency errors when executing the tool
 
@@ -52,20 +53,25 @@ rule all:
     input:
         # The expand() command allows you to iterate through all the file that matches the wildcards. The 'path' wildcard refers to 
         # the 'analysis_folder_path' variable defined earlier. Sample is defined as each element in the samples list created earlier
-        expand(
-            "{path}/gbk_file/{sample}_phold.gbk",
+        expand("{path}/{sample}/Empathi/{sample}_updated.gbk",
+            path = analysis_folder_path,
+            sample = samples,
+        ),
+        expand("{path}/{sample}/Pharokka",
+            path = analysis_folder_path,
+            sample = samples,
+        ),
+        expand("{path}/gbk_file/{sample}_empathi.gbk",
             path = analysis_folder_path,
             sample = samples,
         ),
         expand("{path}/{sample}/Phold",
             path = analysis_folder_path,
-            sample = samples,),
-        expand("{path}/{sample}/blast/{sample}_blast.out",
-            path = analysis_folder_path,
-            sample = samples,),
-        expand("{path}/multifasta/{sample}_consensus.fasta",
-            path = analysis_folder_path,
-            sample = samples,)
+            sample = samples,
+        )
+        # expand("{path}/{sample}/blast/{sample}_blast.out",
+        #     path = analysis_folder_path,
+        #     sample = samples)
 
 # The input of this rule is a lambda function used to dynamically create file paths based on the values of wildcards. Here, each wildcard (sample)
 # will be passed to the function, creating the path associated with it. In other words, the pipeline will input each consensus.fasta file regarding each sample.
@@ -99,9 +105,10 @@ rule pharokka:
     # output because Phold is the tool that need a gbk file.
     output: 
         all = directory("{path}/{sample}/Pharokka/"),
-        phold = "{path}/{sample}/Pharokka/{sample}.gbk",
+        empathi= "{path}/{sample}/Pharokka/{sample}.gbk",
         dnaapler = "{path}/{sample}/Pharokka/{sample}_dnaapler_reoriented.fasta",
-        no_dnaapler = "{path}/{sample}/Pharokka/phanotate.faa"
+        no_dnaapler = "{path}/{sample}/Pharokka/phanotate.faa",
+        # empathi = "{path}/{sample}/Pharokka/phanotate.faa"
     # A message is printed in the terminal so the user can follow what the pipeline is currently doing
     message:
        "Annotation of {wildcards.sample} with Pharokka"
@@ -119,6 +126,40 @@ rule pharokka:
         pharokka
     shell: "pharokka.py -i {input} -d {params.DB_folder}/Pharokka_1.8 --dnaapler -e {params.evalue} -p {wildcards.sample} -l Pharokka_{wildcards.sample} -o {output.all} -f > {log} 2>&1" 
         
+rule Empathi:
+    input: "{path}/{sample}/Pharokka/phanotate.faa"
+
+    output: "{path}/{sample}/Empathi/{sample}/predictions_{sample}.csv"
+
+    message:
+        "Annotation of {wildcards.sample} with Empathi"
+
+    log:
+        "{path}/{sample}/log/Empathi/{sample}.log"
+
+    conda: 
+        empathi
+
+    params:
+        path_to_model = "empathi/models",
+        outdir = "{path}/{sample}/Empathi/"
+
+    shell: 
+        """
+        python3 empathi/src/empathi/empathi.py {input} {wildcards.sample} \
+            -o {params.outdir} \
+            --threads 12 \
+            --models_folder {params.path_to_model} \
+            2> {log}
+        """
+
+rule update_gbk:
+    input: 
+        table = "{path}/{sample}/Empathi/{sample}/predictions_{sample}.csv",
+        gbk = "{path}/{sample}/Pharokka/{sample}.gbk"
+    output: "{path}/{sample}/Empathi/{sample}_updated.gbk"
+    shell: 
+        "python3 Requirements/updated_gbk_from_empathi_annot.py -g {input.gbk} -c {input.table} -o {output}"
 
 rule Phold:
     input:  "{path}/{sample}/Pharokka/{sample}.gbk"
@@ -154,26 +195,26 @@ rule Phold:
 # by phold, it copies them into a folder and it adds the sample name in the file name. The second one takes all the amino_acid file and copy them into a folder
 rule copy_data_gbk: 
     input: 
-        gbk = "{path}/{sample}/Phold/phold.gbk", 
+        gbk = "{path}/{sample}/Empathi/{sample}_updated.gbk", 
         
     output: 
-        all_gbk = "{path}/gbk_file/{sample}_phold.gbk",
+        all_gbk = "{path}/gbk_file/{sample}_empathi.gbk",
     shell:
         """
         cp {input.gbk} {output.all_gbk} 
         """
 
-rule copy_data_aafasta: 
-    input: 
-        fasta = "{path}/{sample}/Phold/phold_aa.fasta" 
-        # fasta = "{path}/{sample}/Phold/phold_aa.fasta"
-    output: 
-        all_fasta = "{path}/multifasta/{sample}_consensus.fasta",
-        # all_fasta = "{path}/fasta_file/{sample}_phold_aa.fasta"
-    shell:
-        """
-        cp {input.fasta} {output.all_fasta} 
-        """
+# rule copy_data_aafasta: 
+#     input: 
+#         fasta = "{path}/{sample}/Phold/phold_aa.fasta" 
+#         # fasta = "{path}/{sample}/Phold/phold_aa.fasta"
+#     output: 
+#         all_fasta = "{path}/multifasta/{sample}_consensus.fasta",
+#         # all_fasta = "{path}/fasta_file/{sample}_phold_aa.fasta"
+#     shell:
+#         """
+#         cp {input.fasta} {output.all_fasta} 
+#         """
 
 # def get_fasta_input(wildcards):
 

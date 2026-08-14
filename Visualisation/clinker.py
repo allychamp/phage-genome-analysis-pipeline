@@ -3,21 +3,21 @@ import os
 import glob
 # Please note the this script ONLY work if the phage-genome-analysis-pipeline snakefile was used before
 # Please enter to path to the result, This path should be the same as the analysis_folder_path in phage-genome-analysis-pipeline snakefile 
-phold_result_path = ["/home/champa/BIOINFO_Linux/PHAGE_genome_analysis/Champoux_A/P_vulgatus/Analysis-12-25"]
+phold_result_path = ["/home/champa/DATA/PHAGE_genome_analysis/SUS-Paul_Champoux-A_Chenard_A/Analysis_05052026",'/home/champa/DATA/PHAGE_genome_analysis/SUS-Paul_Champoux-A_Chenard_A/Analysis_05052026/Ref']
 # Create a list to stock all the dataframe
 dataframes = []
 
 # Iterating throught all the "phold_per_cds_predictions.tsv" file. There should be one file per sample 
 # (one of those file is created in each phold analysis)
 for dir in phold_result_path:
-    for file_path in glob.glob(os.path.join(dir, "*/Phold/phold_per_cds_predictions.tsv")):
-        QC: print(file_path)
+    for file_path in glob.glob(os.path.join(dir, "*/Pharokka/*cds_final_merged_output.tsv")):
+        print(file_path)
 
         # Thean each of the tsv file is converted into a pandas dataframe
         df = pd.read_csv(file_path, delimiter='\t')
         
         # Only the needed columns are selected
-        selected_columns = df[['cds_id','function']] 
+        selected_columns = df[['gene','category']] 
 
         # QC: print(selected_columns)
         # Those columns are added to the list previoulsy created
@@ -44,7 +44,7 @@ function_to_color = {
 }
 
 # Extracting unique functions and their associated colors
-unique_functions = final_df['function'].unique()
+unique_functions = final_df['category'].unique()
 print(unique_functions)
 #If a function doesn't have an attribute colour, the arow will be black
 color_mapping = [(func, function_to_color.get(func, '#000000')) for func in unique_functions]
