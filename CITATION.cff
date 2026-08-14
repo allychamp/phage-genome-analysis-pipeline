@@ -1,13 +1,16 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "If you use this repository, please cite it as below."
 title: "Pipeline for phage genome analysis"
-type: software
+type: Repository
 authors:
   - family-names: "Champoux"
     given-names: "Ally"
-    affiliation: "Université de Sherbrooke"
-date-released: "2024-12-20"
-repository-code: "https://github.com/YOUR-USERNAME/YOUR-REPO"
+    affiliation: "Faculté de médecine et des sciences de la santé, Université de Sherbrooke"
+- family-names: "Fortier"
+    given-names: "Louis-Charles"
+    affiliation: "Faculté de médecine et des sciences de la santé, Université de Sherbrooke"
+date-released: "2026-08-14"
+repository-code: "https://github.com/allychamp/phage-genome-analysis-pipeline"
 abstract: >
   A pipeline for phage DNA analysis. Genomes are analysed using
   Pharokka, Phold, and Empathi. Output files are generated and
