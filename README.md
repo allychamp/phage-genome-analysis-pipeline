@@ -22,15 +22,22 @@
 ## Installation 
 This repository contains the following tree: 
 ```bash
+.
+├── Images
+│   └── logo_lab.jpg
 ├── LICENSE
 ├── README.md
 ├── Requirements
-│   ├── bact_genome_analysis.yml
-│   ├── genomad.yml
-│   ├── reads_prep.yml
-│   ├── snakemake.yml
+│   ├── empathi_env.yml
+│   ├── pharokka.yml
+│   ├── vcontact2.yml
+│   └── vir_genome.yml
 ├── Snakefile
-├── Images
+├── Visualisation
+│   ├── clinker.py
+│   ├── updated_gbk_from_empathi_annot.py
+│   └── vcontact2.py
+├── empathi
 ```
 You can do so by using the following command: 
 ```bash
