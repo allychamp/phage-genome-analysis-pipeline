@@ -3,7 +3,7 @@
   <p>
   <strong>This repository contains a pipeline used for phage DNA analysis. Genomes are analysed using <em>Pharokka</em>, <em>Phold</em> and <em>Empathi</em>. Output files are generated and grouped so that subsequent steps are easy to carry out.</strong>
   </p>
-  <img src="Images/logo_lab.pdf" alt="Lab's logo" width="15%" style="margin-left: 10px;">
+  <img src="Images/logo_lab.png" alt="Lab's logo" width="15%" style="margin-left: 10px;">
 </div>
 
 *<div align="center">
