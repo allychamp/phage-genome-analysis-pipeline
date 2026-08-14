@@ -1,7 +1,7 @@
 # Pipeline for phage genome analysis 
 <div style="display" flex; justify-content: space-between; align="center">
   <p>
-  <strong>This repository contains a pipeline used for phage DNA analysis. Genomes are analysed using <em>Pharokka</em>, <em>Phold</em> and <em>Empathi</em>. Output files are generated and grouped so that subsequent steps are easy to carry out.</strong>
+  <strong>This repository contains a pipeline used for phage DNA analysis. Genomes are analysed using <em>Pharokka</em>, <em>Phold</em> and <em>Empathi</em>. Output files are generated and grouped to make subsequent steps easy to carry out.</strong>
   </p>
   <img src="Images/logo_lab.png" alt="Lab's logo" width="15%" style="margin-left: 10px;">
 </div>
@@ -40,20 +40,20 @@ This repository contains the following tree:
 │   └── vcontact2.py
 ├── empathi
 ```
-You can do so by using the following command: 
+Start by cloning this repository using the following command: 
 ```bash
 git clone https://github.com/allychamp/phage-genome-analysis-pipeline.git
 cd ./nanopore-genome-assembly-pipeline/
 ```
-Note that you should have [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) or [miniconda](https://docs.anaconda.com/miniconda/) installed to run this pipeline. You also need snakemake which can be installed from [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) or from the `snakemake.yml` in the `./Requirements/` directory:
+Note that you should have [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) or [miniconda](https://docs.anaconda.com/miniconda/) installed to run this pipeline. You also need snakemake, which can be installed from [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) or from the `snakemake.yml` in the `./Requirements/` directory:
 ```bash
 conda env create --name snakemake --file=Requirements/snakemake.yml # This path is only valid if you are in the repository directory
 ```
-Make sure to activate this environnement to execute the pipeline:
+Make sure to activate this environment to execute the pipeline:
 ```bash
 conda activate snakemake
 ```
-The rest of the dependencies should be installed in the appropriate conda environnements while executing the pipeline.
+The remaining dependencies should be installed in the appropriate conda environments when executing the pipeline.
 
 ## Repository content
 ### `./Snakefile`
@@ -62,15 +62,15 @@ This is the code for the pipeline itself. It contains all the rules to execute t
 ### `./Requirements/`
 This folder contains all the requirements for each conda environment. The snakemake pipeline creates the environments itself. Only the `./Requirements/` folder is needed in your working directory.
 
-### `./Visualisation`
-This folder contains python scripts usefull in the next steps of the analysis: the connectome (using vContact2 and Cytoscape) and the genomes' alignment (homemade tool, keep an eye open for publication). They do not launch the analysis directly. Each script is use to create and format input files needed for each of the analyses. They are not used by the snakefile, but feel free to use them if needed. The description and usage is specified in each file.
+### `./Visualisation/`
+This folder contains python scripts useful for the next steps of the analysis: the connectome (using vContact2 and Cytoscape) and the genomes' alignment (homemade tool, keep an eye open for publication). They do not launch the analysis directly. Each script is used to create and format input files needed for each of the analyses. They are not used by the snakefile, but feel free to use them if needed. The description and usage are specified in each file.
 
 ## Usage
 ### Input
-To work, the pipeline needs DNA fasta files containing phage genome assemblies. The pipeline will take the name of your fasta file as the name of the sample. Please make sure there is one file per sample and that the files' names are distinct.
+To work, the pipeline needs DNA fasta files containing phage genome assemblies. The pipeline takes the name of your fasta file as the name of the sample. Please make sure there is one file per sample and that the files' names are distinct.
 
 ### Defining variable
-First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Feel free to modify the database path also. 
+First, define the variable `data_folder_path` at the beginning of the snakefile so that the workflow can locate the data. Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Feel free to modify the database path. 
 
 ### Running the snakefile 
 Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
@@ -82,10 +82,10 @@ Please adapt the --cores and --resources options for your computer. In a Linux e
 free -h
 nproc
 ```
-To know exactly how many cores and memory are available on your computer. Please use appropriate commands for other exploitation systems. Also note that this script is optimised to work with a GPU, it might need adjustments if not provided.
+to know exactly how many cores and memory are available on your computer. Please use appropriate commands for other exploitation systems. Also note that this script is optimised to work with a GPU, it might need adjustments if none is used.
 
 ## Output
-The pipeline will ouput a lot of files. Each sample will have a file looking like this (note that only the main files are represented here; please see documentation of each tool for more information on the output file):
+The pipeline outputs a lot of files. Each sample has a file looking like this (note that only the main files are represented here; please see documentation of each tool for more information on the output files):
 ```bash
 ├── Empathi
 │   ├── sample
@@ -110,10 +110,10 @@ The pipeline will ouput a lot of files. Each sample will have a file looking lik
 
 
 ## References
-If you use this repo in your own work, please don't forget to cite it accordingly: 
+If you use this repository in your own work, please don't forget to cite it accordingly: 
 Champoux, A., & Fortier, L. (2026). Pipeline for phage genome analysis [Computer software]. https://github.com/allychamp/phage-genome-analysis-pipeline
 
-Please also cite all the tools used in that work: 
+Please also cite all the tools used in this work: 
 ### Pharokka:
 Bouras, G., Nepal R., Houtak, G., et al. Pharokka: a fast scalable bacteriophage annotation tool, Bioinformatics, Volume 39, Issue 1, January 2023, btac776, https://doi.org/10.1093/bioinformatics/btac776
 
@@ -123,5 +123,5 @@ Bouras, G., Nepal R., Houtak, G., et al., Pharokka: a fast scalable bacteriophag
 ### Empathi : 
 Boulay, A., Leprince, A., Enault, F. et al. Empathi: embedding-based phage protein annotation tool by hierarchical assignment. Nat Commun 16, 9114 (2025). https://doi.org/10.1038/s41467-025-64177-5
 
-### vContact2 : (2019).
+### vContact2 :
 Bin Jang, H., Bolduc, B., Zablocki, O., et al., Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by gene-sharing networks. Nat. Biotechnol. 37, 632–639 (2019). https://doi.org/10.1038/s41587-019-0100-8
