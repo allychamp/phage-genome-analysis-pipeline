@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this repository, please cite it as below."
 title: "Pipeline for phage genome analysis"
-type: Repository
+type: software
 authors:
   - family-names: "Champoux"
     given-names: "Ally"
     affiliation: "Faculté de médecine et des sciences de la santé, Université de Sherbrooke"
-- family-names: "Fortier"
+  - family-names: "Fortier"
     given-names: "Louis-Charles"
     affiliation: "Faculté de médecine et des sciences de la santé, Université de Sherbrooke"
 date-released: "2026-08-14"
