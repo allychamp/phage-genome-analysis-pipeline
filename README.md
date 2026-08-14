@@ -111,6 +111,7 @@ The pipeline will ouput a lot of files. Each sample will have a file looking lik
 
 ## References
 If you use this repo in your own work, please don't forget to cite it accordingly: 
+Champoux, A., & Fortier, L. (2026). Pipeline for phage genome analysis [Computer software]. https://github.com/allychamp/phage-genome-analysis-pipeline
 
 Please also cite all the tools used in that work: 
 ### Pharokka:
