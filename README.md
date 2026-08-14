@@ -1,13 +1,13 @@
 # Pipeline for phage genome analysis 
 <div style="display" flex; justify-content: space-between; align="center">
   <p>
-    <strong>This repository contains a pipeline used for phage DNA analysis.</strong>
+  <strong>This repository contains a pipeline used for phage DNA analysis. Genomes are analysed using <em>Pharokka</em>, <em>Phold</em> and <em>Empathi</em>. Output files are generated and grouped so that subsequent steps are easy to carry out.</strong>
   </p>
   <img src="Images/logo_lab.jpg" alt="Lab's logo" width="15%" style="margin-left: 10px;">
 </div>
 
 *<div align="center">
-    By Ally Champoux, Université de Sherbrooke, 20/12/2024*
+    By Ally Champoux, Université de Sherbrooke, 14/08/2026*
 </div>
 
 <div align="center">
@@ -22,15 +22,23 @@
 ## Installation 
 This repository contains the following tree: 
 ```bash
+.
+├── Images
+│   └── logo_lab.jpg
 ├── LICENSE
 ├── README.md
 ├── Requirements
-│   ├── bact_genome_analysis.yml
-│   ├── genomad.yml
-│   ├── reads_prep.yml
-│   ├── snakemake.yml
+│   ├── empathi_env.yml
+│   ├── pharokka.yml
+│   ├── vcontact2.yml
+│   └── vir_genome.yml
 ├── Snakefile
-├── Images
+├── Visualisation
+│   ├── clinker.py
+│   ├── updated_gbk_from_empathi_annot.py
+    ├── gene_to_genome_vcontact2.py
+│   └── vcontact2.py
+├── empathi
 ```
 You can do so by using the following command: 
 ```bash
@@ -52,7 +60,10 @@ The rest of the dependencies should be installed in the appropriate conda enviro
 This is the code for the pipeline itself. It contains all the rules to execute the pipeline. Please note that you have to open and assign the variables `data_folder_path` and `analysis_folder_path` to the appropriate paths to your data and the output directory, respectively.
 
 ### `./Requirements/`
-This file contains all the requirements for each conda environment. The snakemake pipeline creates the environments itself. Only the `./Requirements/` folder is needed in your working directory.
+This folder contains all the requirements for each conda environment. The snakemake pipeline creates the environments itself. Only the `./Requirements/` folder is needed in your working directory.
+
+### `./Visualisation`
+This folder contains python scripts usefull in the next steps of the analysis: the connectome (using vContact2 and Cytoscape) and the genomes' alignement (homemade tool, keep an eye open for publication). They do not launch the analysis directly. Each script is use to create and format input files needed for each of the analysis. They are not used by the snakefile, but feel free to use them if needed. The description and usage is specified in each file.
 
 ## Usage
 First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. 
