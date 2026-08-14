@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Pipeline for phage genome analysis"
+type: software
+authors:
+  - family-names: "Champoux"
+    given-names: "Ally"
+    affiliation: "Université de Sherbrooke"
+date-released: "2024-12-20"
+repository-code: "https://github.com/YOUR-USERNAME/YOUR-REPO"
+abstract: >
+  A pipeline for phage DNA analysis. Genomes are analysed using
+  Pharokka, Phold, and Empathi. Output files are generated and
+  grouped so that subsequent steps are easy to carry out.
+keywords:
+  - bioinformatics
+  - phage genomics
+  - Pharokka
+  - Phold
+  - Empathi
+license: MIT
