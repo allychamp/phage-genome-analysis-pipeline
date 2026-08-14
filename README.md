@@ -68,7 +68,9 @@ This folder contains python scripts usefull in the next steps of the analysis: t
 ## Usage
 First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. 
 
-Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
+Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Feel free to modify the database path also. 
+
+Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
 ```bash
 snakemake --use-conda -j 1  --cores 32 --resources mem_mb=15000
 ```
