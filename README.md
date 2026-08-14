@@ -20,7 +20,7 @@
 
 
 ## Installation 
-Clone this repository and work in the directory where the `Snakefile` is (it should be the repo's directory). It contains the following tree: 
+This repository contains the following tree: 
 ```bash
 ├── LICENSE
 ├── README.md
