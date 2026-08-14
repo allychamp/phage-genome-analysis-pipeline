@@ -63,13 +63,16 @@ This is the code for the pipeline itself. It contains all the rules to execute t
 This folder contains all the requirements for each conda environment. The snakemake pipeline creates the environments itself. Only the `./Requirements/` folder is needed in your working directory.
 
 ### `./Visualisation`
-This folder contains python scripts usefull in the next steps of the analysis: the connectome (using vContact2 and Cytoscape) and the genomes' alignement (homemade tool, keep an eye open for publication). They do not launch the analysis directly. Each script is use to create and format input files needed for each of the analysis. They are not used by the snakefile, but feel free to use them if needed. The description and usage is specified in each file.
+This folder contains python scripts usefull in the next steps of the analysis: the connectome (using vContact2 and Cytoscape) and the genomes' alignment (homemade tool, keep an eye open for publication). They do not launch the analysis directly. Each script is use to create and format input files needed for each of the analyses. They are not used by the snakefile, but feel free to use them if needed. The description and usage is specified in each file.
 
 ## Usage
-First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. 
+#### Input
+To work, the pipeline needs DNA fasta files containing phage genome assemblies. The pipeline will take the name of your fasta file as the name of the sample. Please make sure there is one file per sample and that the files' names are distinct.
 
-Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Feel free to modify the database path also. 
+#### Defining variable
+First, define the variable `data_folder_path` at the beginning of the snakefile so the workflow can locate the data. Then, the path for the desired output directory should be assigned to the `analysis_folder_path` variable just below the `data_folder_path` variable in the snakefile. Feel free to modify the database path also. 
 
+##### Running the snakefile 
 Once all the paths are set up, make sure to be in the `./phage-genome-analysis-pipeline/` directory and run the pipeline using this command: 
 ```bash
 snakemake --use-conda -j 1  --cores 32 --resources mem_mb=15000
